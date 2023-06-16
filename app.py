@@ -18,12 +18,17 @@ def consultar_dados():
         cursor = conn.cursor()
 
         # Executa a consulta dos últimos 20 dados da tabela
-        cursor.execute('SELECT voltA, voltB, voltC, correnteA, correnteB, correnteC, (voltA * correnteA) AS potenciaA, (voltB * correnteB) AS potenciaB, (voltC * correnteC) AS potenciaC FROM SM_002_Sensor LIMIT 20')
+        cursor.execute('SELECT voltA AS voltA, voltB, voltC, correnteA, correnteB, correnteC, (voltA * correnteA) AS potenciaA, (voltB * correnteB) AS potenciaB, (voltC * correnteC) AS potenciaC from SM_002_Sensor LIMIT 20')
         data = cursor.fetchall()
+
+
+        # Obtém os nomes das colunas 
+        field_names = [i[0] for i in cursor.description]
 
         # Gera um arquivo CSV com os dados
         with open('consulta.csv', 'w', newline='') as file:
             writer = csv.writer(file)
+            writer.writerow(field_names)
             writer.writerows(data)
 
         cursor.close()
