@@ -11,14 +11,14 @@ def consultar_dados():
         conn = mysql.connector.connect(
             host='172.18.1.9',
             port=3306,
-            user='MEU_USER',
-            password='MINHA_SENHA',
-            database='MINHA_BASE'
+            user='root',
+            password='c3a@2022',
+            database='openiot'
         )
         cursor = conn.cursor()
 
         # Executa a consulta dos últimos 20 dados da tabela
-        cursor.execute('SELECT * FROM SM_002_Sensor ORDER BY recvTime DESC LIMIT 20')
+        cursor.execute('SELECT voltA, voltB, voltC, correnteA, correnteB, correnteC, (voltA * correnteA) AS potenciaA, (voltB * correnteB) AS potenciaB, (voltC * correnteC) AS potenciaC FROM SM_002_Sensor LIMIT 20')
         data = cursor.fetchall()
 
         # Gera um arquivo CSV com os dados
